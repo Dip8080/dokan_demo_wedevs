@@ -1,3 +1,4 @@
+import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -93,7 +94,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           height: 3.h,
                         ),
-                        ElevatedButton(onPressed: () {}, child: Text('Login')),
+                        ElevatedButton(
+                            onPressed: () {
+                              Map<String, dynamic> userData = {
+                                "username": _emailController.text,
+                                "password": _passwordController.text
+                              };
+                              print(userData);
+                              if (_formKey.currentState!.validate()) {
+                                AuthRepository().loginUser(userData);
+                              }
+                            },
+                            child: Text('Login')),
                         SizedBox(
                           height: 5.h,
                         ),
