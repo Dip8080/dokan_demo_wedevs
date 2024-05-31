@@ -1,15 +1,21 @@
+import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/registration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  @override
   Widget build(BuildContext context) {
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(10.w),
@@ -63,7 +69,8 @@ class LoginScreen extends StatelessWidget {
                           obscureText: true,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: const InputDecoration(
-                              hintText: 'password',),
+                            hintText: 'password',
+                          ),
                           validator: (String? value) {
                             if (value == null || value.trim().isEmpty) {
                               return 'Write your unit price';
@@ -91,11 +98,16 @@ class LoginScreen extends StatelessWidget {
                           height: 5.h,
                         ),
                         GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: ((context) {
+                                return RegistrationScreen();
+                              })));
+                            },
                             child: Text(
                               'Register as a new User.',
-                              style:
-                                  TextStyle(decoration: TextDecoration.underline),
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline),
                             ))
                       ],
                     )),
@@ -105,6 +117,13 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }
 // https://docs.google.com/document/d/14RnMdTuIMUACR4yXEnM0af0gsvbHOeYESV-nrjPzJ6E/edit#heading=h.jx0u5j59mrz0
