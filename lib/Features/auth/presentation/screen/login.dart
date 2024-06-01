@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/registration.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_list.dart';
@@ -110,8 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   
                                  final Response res = await AuthRepository().loginUser(userData);
                                  if(res.statusCode == 200) {
+                                  final responseBody = jsonDecode(res.body);
                                   Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                                    return ProductList();
+                                    return ProductList(email: responseBody['user_email'], userName: responseBody['user_display_name'],);
                                   })));
                                  }
                                  else {
