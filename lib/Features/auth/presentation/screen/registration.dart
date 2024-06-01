@@ -3,6 +3,7 @@ import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:http/http.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -134,7 +135,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             height: 3.h,
                           ),
                           ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   Map<String, dynamic> user = {
                                     "username": _nameController.text,
@@ -142,7 +143,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     'password': _passwordController.text,
                                   };
                                   print('this is user in widget - ${user}');
-                                  AuthRepository().registerUser(user);
+                                  final Response res =
+                                      await AuthRepository().registerUser(user);
+                                  if (res.statusCode == 200) {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) {
+                                      return LoginScreen();
+                                    }));
+                                  } else {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Error'),
+                                            content: Text(
+                                                'Failed to fetch data. Status code: ${res.statusCode}'),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  }
                                 }
                               },
                               child: Text('Register')),
