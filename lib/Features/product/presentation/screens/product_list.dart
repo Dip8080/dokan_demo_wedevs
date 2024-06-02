@@ -1,4 +1,6 @@
 import 'package:dokan_demo_wedevs/Features/product/model/book.dart';
+import 'package:dokan_demo_wedevs/Features/product/presentation/widgets/custom_drawer.dart';
+import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -26,13 +28,22 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome ${widget.userName}'),
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(Icons.menu , color: Colors.black,),
+            );
+          },
+        ),
+        title: Text('Product List', style: TextStyle(color: AppColors.lightPrimary),),
         centerTitle: true,
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios_new)),
+        actions: <Widget>[
+          Icon(Icons.search , color: AppColors.darkBG,),
+          SizedBox(width: 3.5.w,),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -42,7 +53,7 @@ class _ProductListState extends State<ProductList> {
               child: Container(
                 height: 5.h,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.purple)
+                  border: Border.all(color: AppColors.lightPrimary , width: 2)
                 ),
               )
             ),
@@ -77,13 +88,15 @@ class _ProductListState extends State<ProductList> {
                                 // padding: EdgeInsets.all(2.w),
                                 margin: EdgeInsets.all(2.w),
                                 decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 10,
-                                      offset: Offset(0, 5),
-                                    ),
-                                  ],
-                                  border: Border.all(color: Colors.purple),
+                                  
+                                  color: Colors.grey.shade200,
+                                  // boxShadow: [
+                                  //   BoxShadow(
+                                  //     blurRadius: 7,
+                                  //     offset: Offset(.5, 3),
+                                  //   ),
+                                  // ],
+                                  // border: Border.all(color: Colors.purple),
                                   borderRadius: BorderRadius.circular(8)
                                 ),
                                 width: 40.w,
@@ -146,6 +159,7 @@ class _ProductListState extends State<ProductList> {
           ],
         ),
       ),
+      drawer: CustomDrawer(),
     );
   }
 }

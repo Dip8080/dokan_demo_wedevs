@@ -1,21 +1,23 @@
 import 'dart:convert';
 
+import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/registration.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:http/http.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -39,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextSpan(
                             text: 'okan',
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.black,
                                 letterSpacing: 1.2,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8.w))
@@ -102,23 +104,28 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 3.h,
                           ),
                           ElevatedButton(
-                              onPressed: () async{
+                              onPressed: () async {
                                 Map<String, dynamic> userData = {
                                   "username": _emailController.text,
                                   "password": _passwordController.text
                                 };
                                 print(userData);
-                                if (_formKey.currentState!.validate()){
-                                  
-                                 final Response res = await AuthRepository().loginUser(userData);
-                                 if(res.statusCode == 200) {
-                                  final responseBody = jsonDecode(res.body);
-                                  Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                                    return ProductList(email: responseBody['user_email'], userName: responseBody['user_display_name'],);
-                                  })));
-                                 }
-                                 else {
-                                 showDialog(
+                                if (_formKey.currentState!.validate()) {
+                                  final Response res = await AuthRepository()
+                                      .loginUser(userData);
+                                  if (res.statusCode == 200) {
+                                    final responseBody = jsonDecode(res.body);
+                                    ref.read(authProvider.notifier).login();
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: ((context) {
+                                      return ProductList(
+                                        email: responseBody['user_email'],
+                                        userName:
+                                            responseBody['user_display_name'],
+                                      );
+                                    })));
+                                  } else {
+                                    showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
@@ -135,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             ],
                                           );
                                         });
-                                 }
+                                  }
                                 }
                               },
                               child: Text('Login')),

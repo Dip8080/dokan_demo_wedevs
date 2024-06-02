@@ -1,8 +1,11 @@
 import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const Dokan());
+  runApp(
+    ProviderScope(child: const Dokan())
+  );
 }
 
 

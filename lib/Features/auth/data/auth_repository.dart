@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dokan_demo_wedevs/Features/auth/data/store_user_data.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRepository {
@@ -32,6 +33,8 @@ class AuthRepository {
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
       print('User registered successfully: $responseBody');
+      UserData().deleteUserData();
+      UserData().storeUserData(responseBody['token'], responseBody['user_email'], responseBody['user_display_name']);
       return response;
     } else {
       print('Failed to register user: ${response.body}');
