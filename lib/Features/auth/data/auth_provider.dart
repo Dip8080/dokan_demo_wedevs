@@ -10,7 +10,7 @@ class AuthNotifier extends StateNotifier<bool> {
   }
 
   void logout() async{
-    await UserData().deleteUserData();
+    
     state = false;
   }
 }

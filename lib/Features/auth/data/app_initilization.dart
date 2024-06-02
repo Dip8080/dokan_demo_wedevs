@@ -9,7 +9,7 @@ final appInitializationProvider = FutureProvider((ref) async {
   for (String n in userData!.keys) {
     if (n == TokenKey) {
       tokenValue = userData[n];
-      if (tokenValue != null) {
+      if (tokenValue.length > 0) {
         ref.read(authProvider.notifier).login();
       } else {
         ref.read(authProvider.notifier).logout();

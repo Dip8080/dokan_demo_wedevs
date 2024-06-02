@@ -23,6 +23,7 @@ class AuthRepository {
   }
 
   Future<dynamic> loginUser(Map<String, dynamic> userData) async {
+    
     print('this is user in function - ${userData}');
 
     final response = await http.post(
@@ -33,8 +34,8 @@ class AuthRepository {
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
       print('User registered successfully: $responseBody');
-      UserData().deleteUserData();
-      UserData().storeUserData(responseBody['token'], responseBody['user_email'], responseBody['user_display_name']);
+     await UserData().deleteUserData();
+     await UserData().storeUserData(responseBody['token'], responseBody['user_email'], responseBody['user_display_name']);
       return response;
     } else {
       print('Failed to register user: ${response.body}');

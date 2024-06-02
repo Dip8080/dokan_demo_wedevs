@@ -4,6 +4,7 @@ import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/registration.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool? isLoading ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,10 +68,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 AutovalidateMode.onUserInteraction,
                             decoration: const InputDecoration(
                                 prefixIcon: Icon(Icons.email),
-                                hintText: 'email'),
+                                hintText: 'User Name'),
                             validator: (String? value) {
                               if (value == null || value.trim().isEmpty) {
-                                return 'Enter Your Email';
+                                return 'Enter Your Name';
                               }
                               return null;
                             },
@@ -103,49 +106,65 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           SizedBox(
                             height: 3.h,
                           ),
-                          ElevatedButton(
-                              onPressed: () async {
-                                Map<String, dynamic> userData = {
-                                  "username": _emailController.text,
-                                  "password": _passwordController.text
-                                };
-                                print(userData);
-                                if (_formKey.currentState!.validate()) {
-                                  final Response res = await AuthRepository()
-                                      .loginUser(userData);
-                                  if (res.statusCode == 200) {
-                                    final responseBody = jsonDecode(res.body);
-                                    ref.read(authProvider.notifier).login();
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: ((context) {
-                                      return ProductList(
-                                        email: responseBody['user_email'],
-                                        userName:
-                                            responseBody['user_display_name'],
-                                      );
-                                    })));
-                                  } else {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Error'),
-                                            content: Text(
-                                                'Failed to fetch data. Status code: ${res.statusCode}'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                                child: Text('OK'),
-                                              ),
-                                            ],
-                                          );
-                                        });
+                          Wrap(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                        isLoading = true;
+                                      });
+                                  Map<String, dynamic> userData = {
+                                    "username": _emailController.text,
+                                    "password": _passwordController.text
+                                  };
+                                  print(userData);
+                                  if (_formKey.currentState!.validate()) {
+                                    final Response res = await AuthRepository()
+                                        .loginUser(userData);
+                                    if (res.statusCode == 200) {
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                      final responseBody = jsonDecode(res.body);
+                                      ref.read(authProvider.notifier).login();
+                                      Navigator.push(context, MaterialPageRoute(
+                                          builder: ((context) {
+                                        return ProductList(
+                                          email: responseBody['user_email'],
+                                          userName:
+                                              responseBody['user_display_name'],
+                                        );
+                                      })));
+                                    } else {
+                                      showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text('Error'),
+                                              content: Text(
+                                                  'Failed to fetch data. Status code: ${res.statusCode}'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          });
+                                    }
                                   }
-                                }
-                              },
-                              child: Text('Login')),
+                                },
+                                child: Text('Login'),
+                              ),
+                              isLoading == true ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: CircularProgressIndicator(color: Colors.red,)),
+                              ) : SizedBox(),
+                              
+                            ],
+                          ),
                           SizedBox(
                             height: 5.h,
                           ),

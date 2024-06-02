@@ -1,4 +1,5 @@
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
+import 'package:dokan_demo_wedevs/Features/auth/data/store_user_data.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/login.dart';
 import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/material.dart';
@@ -18,32 +19,8 @@ class CustomDrawer extends ConsumerWidget {
             icon: Icons.home,
             title: 'Home',
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) {
-              //       // return HomePage();
-              //       return HomeCore();
-              //     },
-              //   ),
-              // );
             },
           ),
-
-          // _buildDrawerItem(
-          //   icon: Icons.category,
-          //   title: 'Categories',
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) {
-          //           return ProductCategory();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ),
           _buildDrawerItem(
             icon: Icons.shopping_cart,
             title: 'Cart',
@@ -72,40 +49,6 @@ class CustomDrawer extends ConsumerWidget {
               // );
             },
           ),
-          // _buildDrawerItem(
-          //   icon: Icons.favorite,
-          //   title: "WishList" ,
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) {
-
-          //           // return ProductRiverpod();
-          //           return FavPageTwo();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ) ,
-
-          // isAuthenticated ? _buildDrawerItem(
-          //   icon: Icons.history_outlined,
-          //   title: "Order History" ,
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //         builder: (context) {
-          //           // return ProductRiverpod();
-          //           return OrderHistory();
-          //         },
-          //       ),
-          //     );
-          //   },
-          // ) :
-          // // Divider(),
-          // SizedBox(height: 1.w,),
           Divider(),
           _buildDrawerItem(
             icon: Icons.privacy_tip_rounded,
@@ -122,26 +65,28 @@ class CustomDrawer extends ConsumerWidget {
               // );
             },
           ),
+          // Divider(),
+          // _buildDrawerItem(
+          //   icon: Icons.logout,
+          //   title: "logout",
+          //   onTap: () {
+          //     UserData().deleteUserData();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) {
+          //           // return ProductRiverpod();
+          //           return LoginScreen() ;}
+          //       ),
+          //     );
+          //   },
+          // ),
           _buildDrawerItem(
             icon: isAuthenticated ? Icons.logout_sharp : Icons.login_sharp,
             title: isAuthenticated ? 'Logout' : 'Login',
             onTap: () {
-              // var tokenValue;
-              // String TokenKey = 'token';
-              // final userData = ref.watch(userDataProvider).value;
-              // print(userData);
-              // for (String n in userData!.keys) {
-              //   if (n == TokenKey) {
-              //     tokenValue = userData[n];
-              //     if (tokenValue != null) {
-              //       ref.read(authProvider.notifier).login();
-              //     } else {
-              //       ref.read(authProvider.notifier).logout();
-              //       secureStorage.deleteAll();
-              //     }
-              //   }
-              // }
               if (isAuthenticated) {
+                UserData().deleteUserData();
                 ref.read(authProvider.notifier).logout();
                 final snackBar = SnackBar(
                   content: Text(
@@ -162,12 +107,10 @@ class CustomDrawer extends ConsumerWidget {
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBar);
               } else {
-                // print('i am also token -${tokenValue}');
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      //  return SignInPage();
                       return LoginScreen();
                     },
                   ),
@@ -201,12 +144,13 @@ class CustomDrawer extends ConsumerWidget {
             ),
             Consumer(
               builder: (context, ref, child) {
+                final isAuthenticated = ref.watch(authProvider);
                 final userData = ref.watch(userDataProvider);
 
                 return userData.when(
                   data: (data) {
                     // print(data.le);
-                    final isAuthenticated = ref.watch(authProvider);
+                    
 
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
