@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:dokan_demo_wedevs/Features/product/data/get_book_data.dart';
 import 'package:dokan_demo_wedevs/Features/product/model/book.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/widgets/custom_drawer.dart';
 import 'package:dokan_demo_wedevs/app.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -16,11 +20,199 @@ class ProductList extends StatefulWidget {
 }
 
 class _ProductListState extends State<ProductList> {
-  Future<List<Book>> futureProduct = loadBook();
+  late Future<List<Book>> futureBooks;
+  String _sortOption = 'newest';
 
   @override
   void initState() {
     super.initState();
+    futureBooks = loadBook();
+  }
+
+void _sortBooks(List<Book> books) {
+    setState(() {
+      if (_sortOption == 'newest') {
+        books.sort((a, b) => b.dateCreated.compareTo(a.dateCreated));
+      } else if (_sortOption == 'oldest') {
+        books.sort((a, b) => a.dateCreated.compareTo(b.dateCreated));
+      } else if (_sortOption == 'price low > high') {
+        books.sort((a, b) => a.price.compareTo(b.price));
+      } else if (_sortOption == 'price hign > low') {
+        books.sort((a, b) => b.price.compareTo(a.price));
+      } else if (_sortOption == 'best selling') {
+        books.sort((a, b) => a.averageRating.compareTo(b.averageRating));
+      }
+    });
+  }
+
+
+  void _showSortOptions() {
+        showModalBottomSheet(
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(0.0)),
+                        ),
+                        backgroundColor: Colors.white,
+                        context: (context),
+                        builder: (BuildContext context) {
+                          return Container(
+                            height: 60.h,
+                            width: 100.w,
+                            padding: EdgeInsets.only(left: 5.w, right: 5.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 5.h,
+                                ),
+                                Text(
+                                  'Filter',
+                                  style: TextStyle(
+                                      fontSize: 4.5.w,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  height: 1.h,
+                                ),
+                                Column(
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        Radio<String>(
+                                            value: 'newest',
+                                            groupValue: _sortOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _sortOption = value!;
+                                              });
+                                            }),
+                                      Text(
+                                              'Newest',
+                                              style: TextStyle(fontSize: 4.5.w),
+                                            )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio<String>(
+                                            value: 'oldest',
+                                            groupValue: _sortOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _sortOption = value!;
+                                              });
+                                            }),
+                                      Text(
+                                              'Oldest',
+                                              style: TextStyle(fontSize: 4.5.w),
+                                            )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio<String>(
+                                            value: 'price low > high',
+                                            groupValue: _sortOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _sortOption = value!;
+                                              });
+                                            }),
+                                      Text(
+                                              'Price low > high',
+                                              style: TextStyle(fontSize: 4.5.w),
+                                            )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio<String>(
+                                            value: 'price hign > low',
+                                            groupValue: _sortOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _sortOption = value!;
+                                              });
+                                            }),
+                                      Text(
+                                              'Price hign > low',
+                                              style: TextStyle(fontSize: 4.5.w),
+                                            )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio<String>(
+                                            value: 'best selling',
+                                            groupValue: _sortOption,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                _sortOption = value!;
+                                              });
+                                            }),
+                                      Text(
+                                              'Best selling',
+                                              style: TextStyle(fontSize: 4.5.w),
+                                            )
+                                      ],
+                                    ),
+                                    
+                                    
+                                    
+                                   
+                                    
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 7.h,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 8.h,
+                                      width: 40.w,
+                                      color: Colors.grey.shade300,
+                                      child: Center(
+                                        child: Center(
+                                            child: Text('Cancel',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 4.5.w))),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                    setState(() {
+                      futureBooks = futureBooks.then((books) {
+                        _sortBooks(books);
+                        return books;
+                      });
+                    });
+                                      },
+                                      child: Container(
+                                        height: 8.h,
+                                        width: 40.w,
+                                        color: AppColors.lightPrimary,
+                                        child: Center(
+                                          child: Text(
+                                            'Apply',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 4.5.w),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        });
   }
 
   @override
@@ -57,105 +249,21 @@ class _ProductListState extends State<ProductList> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-                padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 2.w),
+                padding: EdgeInsets.only(left: 5.w, right: 5.w),
+                
                 child: GestureDetector(
                   onTap: () {
-                    showModalBottomSheet(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical( top: Radius.circular(0.0)),
-                        ),
-                        backgroundColor: Colors.white,
-                        context: (context),
-                        builder: (BuildContext context) {
-                          return Container(
-                            height: 60.h,
-                            width: 100.w,
-                            padding: EdgeInsets.only(left: 5.w, right: 5.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                                Text(
-                                  'Filter',
-                                  style: TextStyle(
-                                      fontSize: 4.5.w,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(
-                                  height: 1.h,
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Row(
-                                      children: [
-                                        Radio(value: 1, groupValue: 1, onChanged: (value) {}
-                                        ),
-                                        Text('Newest', style: TextStyle(fontSize: 4.5.w),)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Radio(value: 0, groupValue: 1, onChanged: (value) {}
-                                        ),
-                                        Text('Oldest', style: TextStyle(fontSize: 4.5.w),)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Radio(value: 0, groupValue: 1, onChanged: (value) {}
-                                        ),
-                                        Text('Price low > High', style: TextStyle(fontSize: 4.5.w),)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Radio(value: 0, groupValue: 1, onChanged: (value) {}
-                                        ),
-                                        Text('Price High > Low', style: TextStyle(fontSize: 4.5.w),)
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Radio(value: 0, groupValue: 1, onChanged: (value) {}
-                                        ),
-                                        Text('Best selling', style: TextStyle(fontSize: 4.5.w),)
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 7.h,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 8.h,
-                                      width: 40.w,
-                                      color: Colors.grey.shade300,
-                                      child: Center(child: Center(child: Text('Cancel' ,style: TextStyle(color: Colors.white , fontSize: 4.5.w))),),
-                                    ),
-                                    Container(
-                                      height: 8.h,
-                                      width: 40.w,
-                                      color: AppColors.lightPrimary,
-                                      child: Center(child: Text('Apply' , style: TextStyle(color: Colors.white , fontSize: 4.5.w),),),
-                                    ),
-                                    
-                                  ],
-                                )
-
-                              ],
-                            ),
-                          );
-                        });
+                    _showSortOptions();
+                    
                   },
                   child: Container(
                     height: 5.h,
                     width: 90.w,
+                    
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: AppColors.lightPrimary, width: 2)),
@@ -187,7 +295,7 @@ class _ProductListState extends State<ProductList> {
             Container(
               height: 90.h,
               child: FutureBuilder(
-                future: futureProduct,
+                future: futureBooks,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
@@ -289,20 +397,25 @@ class _ProductListState extends State<ProductList> {
                                         Icon(
                                           Icons.star,
                                           color: AppColors.lightPrimary,
+                                          size: 5.w,
                                         ),
                                         Icon(
+                                          size: 5.w,
                                           Icons.star,
                                           color: AppColors.lightPrimary,
                                         ),
                                         Icon(
+                                          size: 5.w,
                                           Icons.star,
                                           color: AppColors.lightPrimary,
                                         ),
                                         Icon(
+                                          size: 5.w,
                                           Icons.star_half,
                                           color: AppColors.lightPrimary,
                                         ),
                                         Icon(
+                                          size: 5.w,
                                           Icons.star_half,
                                           color: AppColors.lightPrimary,
                                         )
