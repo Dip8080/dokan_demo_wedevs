@@ -1,6 +1,7 @@
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/store_user_data.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/login.dart';
+import 'package:dokan_demo_wedevs/Features/profile/presentation/Screens/profile_screen.dart';
 import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,28 +26,20 @@ class CustomDrawer extends ConsumerWidget {
             icon: Icons.shopping_cart,
             title: 'Cart',
             onTap: () {
-              //   Navigator.push(
-              //     context,
-              //     MaterialPageRoute(
-              //       builder: (context) {
-              //         return CartPage();
-              //       },
-              //     ),
-              //   );
             },
           ),
           _buildDrawerItem(
             icon: Icons.person_4_rounded,
             title: 'Profile',
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) {
-              //       return Profile();
-              //     },
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProfileScreen();
+                  },
+                ),
+              );
             },
           ),
           Divider(),
