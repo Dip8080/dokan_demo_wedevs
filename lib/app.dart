@@ -49,6 +49,12 @@ class Dokan extends ConsumerWidget {
             backgroundColor: AppColors.lightPrimary,
             foregroundColor: Colors.white),
       ),
+      expansionTileTheme: ExpansionTileThemeData(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(8),
+        )
+      )
     );
   }
 
@@ -76,6 +82,12 @@ class Dokan extends ConsumerWidget {
             backgroundColor: Color.fromARGB(255, 247, 96, 85),
             foregroundColor: Colors.white),
       ),
+       expansionTileTheme: ExpansionTileThemeData(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(8),
+        )
+      )
     );
   }
 }

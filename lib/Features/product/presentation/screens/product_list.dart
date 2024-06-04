@@ -69,6 +69,9 @@ class _ProductListState extends State<ProductList> {
                   SizedBox(
                     height: 5.h,
                   ),
+                  Center(child: Container(
+                    width: 14.w,
+                    child: Divider(thickness: 3, color: AppColors.lightPrimary,))),
                   Text(
                     'Filter',
                     style:
@@ -137,14 +140,18 @@ class _ProductListState extends State<ProductList> {
                           Navigator.pop(context);
                         },
                         child: Container(
-                          height: 8.h,
+                          height: 7.h,
                           width: 40.w,
-                          color: Colors.grey.shade300,
+                          
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Center(
                             child: Center(
                                 child: Text('Cancel',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 4.5.w))),
+                                        color: Colors.black, fontSize: 4.5.w , fontWeight: FontWeight.bold))),
                           ),
                         ),
                       ),
@@ -159,14 +166,18 @@ class _ProductListState extends State<ProductList> {
                           });
                         },
                         child: Container(
-                          height: 8.h,
+                          height: 7.h,
                           width: 40.w,
-                          color: AppColors.lightPrimary,
+                          
+                          decoration: BoxDecoration(
+                            color: AppColors.lightPrimary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           child: Center(
                             child: Text(
                               'Apply',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 4.5.w),
+                                  color: Colors.white, fontSize: 4.5.w , fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -222,7 +233,7 @@ class _ProductListState extends State<ProductList> {
         ),
         title: Text(
           'Product List',
-          style: TextStyle(color: AppColors.lightPrimary),
+          style: TextStyle(color: AppColors.lightPrimary , fontWeight: FontWeight.bold,letterSpacing: 1),
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -252,16 +263,18 @@ class _ProductListState extends State<ProductList> {
                       _showSortOptions();
                     },
                     child: Card(
-                      color: Colors.white,
-                      elevation: 1.5,
+                      color: Colors.transparent,
+                      elevation: 3,
                       child: Container(
                         padding: EdgeInsets.only(left:2.w, right: 2.w),
                         height: 7.h,
                         width: 90.w,
-                        // decoration: BoxDecoration(
-                        //   border:
-                        //       Border.all(color: AppColors.lightPrimary, width: 2),
-                        // ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          // border:
+                              // Border.all(color: AppColors.lightPrimary, width: 2),
+                          color: Colors.white                              
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -342,7 +355,7 @@ class _ProductListState extends State<ProductList> {
                                       // ],
                                       // border: Border.all(color: Colors.purple),
                                       borderRadius: BorderRadius.circular(8)),
-                                  width: 40.w,
+                                  width: 50.w,
                                   height: 60.h,
                                   child: Column(
                                     children: <Widget>[
