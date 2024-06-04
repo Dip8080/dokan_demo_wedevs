@@ -19,14 +19,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController _passwordConfirmController =
       TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool? isLoading ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(10.w),
-          child: Flexible(
-            child: Column(
+          child: Column(
               children: <Widget>[
                 RichText(
                   text: TextSpan(
@@ -39,7 +39,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         TextSpan(
                             text: 'okan',
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 241, 98, 76),
                                 letterSpacing: 1.2,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8.w))
@@ -146,6 +146,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   final Response res =
                                       await AuthRepository().registerUser(user);
                                   if (res.statusCode == 200) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
                                     Navigator.push(context,
                                         MaterialPageRoute(builder: (context) {
                                       return LoginScreen();
@@ -172,6 +175,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 }
                               },
                               child: Text('Register')),
+                              isLoading == true ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(child: CircularProgressIndicator(color: Colors.red,)),
+                              ) : SizedBox(),
                           SizedBox(
                             height: 5.h,
                           ),
@@ -194,8 +201,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
+
   }
 
   @override

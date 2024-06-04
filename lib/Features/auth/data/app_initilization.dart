@@ -1,19 +1,13 @@
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 final appInitializationProvider = FutureProvider((ref) async {
-  var tokenValue;
-  String TokenKey = 'token';
-  final userData = ref.watch(userDataProvider).value;
-  print(userData);
-  for (String n in userData!.keys) {
-    if (n == TokenKey) {
-      tokenValue = userData[n];
-      if (tokenValue.length > 0) {
-        ref.read(authProvider.notifier).login();
-      } else {
-        ref.read(authProvider.notifier).logout();
-      }
-    }
+  FlutterSecureStorage _storage = FlutterSecureStorage();
+  final tokan = await _storage.read(key: 'auth_token');
+  if (tokan == null) {
+    ref.read(authProvider.notifier).logout();
+  } else {  
+    ref.read(authProvider.notifier).login();
   }
 },);

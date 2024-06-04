@@ -13,10 +13,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
 class ProductList extends StatefulWidget {
-  const ProductList({super.key, required this.userName, required this.email});
+  const ProductList({super.key});
 
-  final String userName;
-  final String email;
+ 
 
   @override
   State<ProductList> createState() => _ProductListState();
@@ -54,7 +53,7 @@ class _ProductListState extends State<ProductList> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
         ),
-        backgroundColor: Colors.white,
+        // backgroundColor: Colors.white,
         context: (context),
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -263,8 +262,8 @@ class _ProductListState extends State<ProductList> {
                       _showSortOptions();
                     },
                     child: Card(
-                      color: Colors.transparent,
-                      elevation: 3,
+                     
+                      elevation: 1,
                       child: Container(
                         padding: EdgeInsets.only(left:2.w, right: 2.w),
                         height: 7.h,
@@ -273,7 +272,7 @@ class _ProductListState extends State<ProductList> {
                           borderRadius: BorderRadius.circular(8),
                           // border:
                               // Border.all(color: AppColors.lightPrimary, width: 2),
-                          color: Colors.white                              
+                          // color: Colors.white                              
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,7 +345,7 @@ class _ProductListState extends State<ProductList> {
                                   // padding: EdgeInsets.all(2.w),
                                   margin: EdgeInsets.all(2.w),
                                   decoration: BoxDecoration(
-                                      color: Colors.grey.shade200,
+                                      color: Colors.grey.shade900,
                                       // boxShadow: [
                                       //   BoxShadow(
                                       //     blurRadius: 7,
@@ -366,7 +365,7 @@ class _ProductListState extends State<ProductList> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(8),
-                                            color: Colors.white,
+                                            // color: Colors.white,
                                             image: DecorationImage(
                                               image: NetworkImage(productData[
                                                           index]
@@ -378,21 +377,19 @@ class _ProductListState extends State<ProductList> {
                                       SizedBox(
                                         width: 5.w,
                                       ),
-                                      Flexible(
-                                        child: Text(
+                                      Text(
                                           productData[index].name ??
                                               'demo name',
                                           style: TextStyle(
                                               fontSize: 3.5.w,
                                               fontWeight: FontWeight.w400),
                                         ),
-                                      ),
+                                     
                                       SizedBox(
                                         width: 10.w,
                                       ),
-                                      Flexible(
-                                        child: Wrap(
-                                          alignment: WrapAlignment.center,
+                                      Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(
                                               '150\$' ?? 'demo name',
@@ -416,7 +413,7 @@ class _ProductListState extends State<ProductList> {
                                             ),
                                           ],
                                         ),
-                                      ),
+                                 
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

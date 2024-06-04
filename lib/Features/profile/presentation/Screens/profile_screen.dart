@@ -1,9 +1,10 @@
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
+import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_list.dart';
+import 'package:dokan_demo_wedevs/Features/profile/data/profile_repository.dart';
 import 'package:dokan_demo_wedevs/Features/profile/presentation/widgets/data_update_button.dart';
 import 'package:dokan_demo_wedevs/app.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
@@ -40,8 +41,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   ];
 
+  String? name ;
+  int? id ;
+  Future <void> fetchProfileData() async {
+    final profileData = await ProfileRepository().getProfiledata();
+    if(profileData != null){
+      setState(() {
+        name = profileData['name'];
+        id = profileData['id'];
+      });
+    }
+  }
+
+
+
   @override
   void initState() {
+    fetchProfileData();
     super.initState();
   }
 
@@ -76,6 +92,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(
                       height: 5.w,
                     ),
+                      Text(
+                                '$name',
+                                style: TextStyle(
+                                    fontSize: 6.w, fontWeight: FontWeight.bold),
+                              ),
                     Consumer(builder: (context, ref, child) {
                       final userData = ref.watch(userDataProvider);
 
@@ -83,11 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         data: (data) {
                           return Container(
                             child: Column(children: <Widget>[
-                              Text(
-                                '${data['user'] ?? 'User Name'}',
-                                style: TextStyle(
-                                    fontSize: 6.w, fontWeight: FontWeight.bold),
-                              ),
+                            
                               Text(
                                 '${data['email'] ?? 'User Email'} ',
                                 style: TextStyle(
@@ -293,7 +310,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {},
+                                onTap: () async {
+                                 ProfileRepository().updateProfile(
+                                    id ?? 1,
+                                 );
+                                },
                                 child: Container(
                                   height: 6.5.h,
                                   width: 36.w,
@@ -371,7 +392,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ],
                             ),
                           ),
-                          
                           Container(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -467,7 +487,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               style: TextStyle(fontSize: 5.w),
                             ),
                           ),
-                          
                         ],
                       ),
                       Container(width: 75.w, child: Divider()),
@@ -523,8 +542,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             case 0:
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) => ProductList(userName: '', email: '')),
+                MaterialPageRoute(builder: (context) => ProductList()),
               );
               break;
           }
@@ -532,5 +550,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
 }

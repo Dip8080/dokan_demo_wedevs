@@ -5,7 +5,7 @@ import 'package:dokan_demo_wedevs/Features/profile/presentation/Screens/profile_
 import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_sizer/flutter_sizer.dart';
+
 
 class CustomDrawer extends ConsumerWidget {
   @override

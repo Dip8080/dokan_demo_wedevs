@@ -21,7 +21,7 @@ class Dokan extends ConsumerWidget {
         theme: _lightThemeData(),
         darkTheme: _dartThemeData(),
         themeMode: ThemeMode.system,
-        home: isAuthenticated ? ProductList(userName: '', email: '') : LoginScreen(),
+        home: isAuthenticated ? ProductList() : LoginScreen(),
       );
     });
   }
@@ -54,7 +54,8 @@ class Dokan extends ConsumerWidget {
           side: const BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(8),
         )
-      )
+      ),
+  
     );
   }
 
@@ -87,7 +88,11 @@ class Dokan extends ConsumerWidget {
           side: const BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(8),
         )
-      )
+      ),
+
+     iconButtonTheme: IconButtonThemeData(
+      style: ButtonStyle(iconColor: MaterialStateColor.resolveWith((states) => Colors.white)),
+     ) 
     );
   }
 }

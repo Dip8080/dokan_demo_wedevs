@@ -30,8 +30,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(10.w),
-          child: Flexible(
-            child: Column(
+          child: Column(
               children: <Widget>[
                 RichText(
                   text: TextSpan(
@@ -44,7 +43,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         TextSpan(
                             text: 'okan',
                             style: TextStyle(
-                                color: Colors.black,
+                                color: Color.fromARGB(255, 241, 98, 76),
                                 letterSpacing: 1.2,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 8.w))
@@ -130,9 +129,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                       Navigator.push(context, MaterialPageRoute(
                                           builder: ((context) {
                                         return ProductList(
-                                          email: responseBody['user_email'],
-                                          userName:
-                                              responseBody['user_display_name'],
+                                       
                                         );
                                       })));
                                     } else {
@@ -187,7 +184,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
         ),
-      ),
+    
     );
   }
 

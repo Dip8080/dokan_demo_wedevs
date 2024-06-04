@@ -1,3 +1,4 @@
+import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/store_user_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,8 +10,9 @@ class AuthNotifier extends StateNotifier<bool> {
     state = true;
   }
 
-  void logout() async{
-    
+  void logout() async {
+    await AuthRepository().logOut();
+    await UserData().deleteUserData();
     state = false;
   }
 }
