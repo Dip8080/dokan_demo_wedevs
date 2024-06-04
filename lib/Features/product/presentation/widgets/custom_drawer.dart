@@ -122,7 +122,8 @@ class CustomDrawer extends ConsumerWidget {
       child: DrawerHeader(
         decoration: BoxDecoration(
             // color: AppColors.lightAccent,
-            color: AppColors.lightGrey),
+            // color: AppColors.lightGrey
+            ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

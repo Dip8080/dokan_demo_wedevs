@@ -467,7 +467,7 @@ class _ProductListState extends State<ProductList> {
         padding: const EdgeInsets.only(bottom: 0, right: 0, left: 0, top: 0),
         child: BottomBarCreative(
           items: items,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.grey.shade800,
           color: Colors.black,
           colorSelected: AppColors.lightPrimary,
           indexSelected: visit,

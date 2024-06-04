@@ -135,7 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   width: 100.w,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: Colors.white),
+                      // color: Colors.white
+                      ),
                   child: Column(
                     children: [
                       ExpansionTile(
@@ -532,7 +533,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       bottomNavigationBar: BottomBarCreative(
         items: items,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.grey.shade800,
         color: Colors.black,
         colorSelected: AppColors.lightPrimary,
         indexSelected: visit,
