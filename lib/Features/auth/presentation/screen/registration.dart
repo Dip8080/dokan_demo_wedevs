@@ -1,9 +1,6 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:http/http.dart';
 
@@ -63,7 +60,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: _nameController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.person_outline), hintText: 'name'),
+                              prefixIcon: Icon(Icons.person_outline),
+                              hintText: 'name'),
                           validator: (String? value) {
                             if (value == null || value.trim().isEmpty) {
                               return 'Enter Your name';
@@ -76,7 +74,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: _emailController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: const InputDecoration(
-                              prefixIcon: Icon(Icons.email_outlined), hintText: 'email'),
+                              prefixIcon: Icon(Icons.email_outlined),
+                              hintText: 'email'),
                           validator: (String? value) {
                             if (value == null || value.trim().isEmpty) {
                               return 'Enter Your Email';
@@ -120,17 +119,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           },
                         ),
                         const SizedBox(height: 16),
-                        // Container(
-                        //   width: 80.w,
-                        //   child: Row(
-                        //     mainAxisSize: MainAxisSize.max,
-                        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //     children: [
-                        //       SizedBox(width: 40.w),
-                        //       Text('Forgot Password ?')
-                        //     ],
-                        //   ),
-                        // ),
                         SizedBox(
                           height: 3.h,
                         ),

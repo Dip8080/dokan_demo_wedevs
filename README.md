@@ -40,7 +40,7 @@ This project is a Flutter application that demonstrates user registration, login
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/your-repository-name.git
+    git clone https://github.com/Dip8080/dokan_demo_wedevs.git
     ```
 2. Navigate to the project directory:
     ```bash

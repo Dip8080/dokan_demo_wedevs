@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:http/http.dart' as http;
 
 class ProfileRepository {
-  Future<Map<String , dynamic>?> getProfiledata() async {
+  Future<Map<String, dynamic>?> getProfiledata() async {
     final token = await AuthRepository().getToken();
     print(token);
     final response = await http.get(
@@ -22,7 +21,8 @@ class ProfileRepository {
       return null;
     }
   }
-Future<dynamic> updateProfile(int id , Map<String , dynamic> fullName) async {
+
+  Future<dynamic> updateProfile(int id, Map<String, dynamic> fullName) async {
     print('this is user id - ${id} and this is full name - ${fullName}');
     final response = await http.post(
       Uri.parse('https://apptest.dokandemo.com/wp-json/wp/v2/users/${id}'),
@@ -31,7 +31,6 @@ Future<dynamic> updateProfile(int id , Map<String , dynamic> fullName) async {
         'Authorization': 'Bearer ${await AuthRepository().getToken()}'
       },
       body: jsonEncode(fullName),
-      
     );
     if (response.statusCode == 200) {
       return response;

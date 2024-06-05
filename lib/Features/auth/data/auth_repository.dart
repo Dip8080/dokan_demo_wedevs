@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:dokan_demo_wedevs/Features/auth/data/store_user_data.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -53,6 +52,4 @@ class AuthRepository {
   Future<void> logOut() async {
     await _storage.delete(key: 'auth_token');
   }
-
-  
 }

@@ -1,12 +1,9 @@
 import 'dart:convert';
-
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/registration.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_list.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 import 'package:http/http.dart';

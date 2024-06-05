@@ -1,16 +1,11 @@
-import 'dart:convert';
-
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
-import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:dokan_demo_wedevs/Features/product/data/get_book_data.dart';
 import 'package:dokan_demo_wedevs/Features/product/model/book.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_details.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/widgets/custom_drawer.dart';
 import 'package:dokan_demo_wedevs/Features/profile/presentation/Screens/profile_screen.dart';
 import 'package:dokan_demo_wedevs/app.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
 
 class ProductList extends StatefulWidget {
@@ -52,7 +47,6 @@ class _ProductListState extends State<ProductList> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(0.0)),
         ),
-        // backgroundColor: Colors.white,
         context: (context),
         builder: (context) {
           return StatefulBuilder(builder: (context, setState) {
@@ -223,8 +217,12 @@ class _ProductListState extends State<ProductList> {
     final Brightness brightness = MediaQuery.of(context).platformBrightness;
     final Color backgroundColor =
         (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.white;
-    final Color shadowColor = (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.grey.shade200;
-    final Color borderColor = (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.grey.shade200;
+    final Color shadowColor = (brightness == Brightness.dark)
+        ? Colors.grey.shade900
+        : Colors.grey.shade200;
+    final Color borderColor = (brightness == Brightness.dark)
+        ? Colors.grey.shade900
+        : Colors.grey.shade200;
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -241,10 +239,7 @@ class _ProductListState extends State<ProductList> {
         ),
         title: Text(
           'Product List',
-          style: TextStyle(
-             
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1),
+          style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1),
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -279,20 +274,10 @@ class _ProductListState extends State<ProductList> {
                     height: 7.h,
                     width: 95.w,
                     decoration: BoxDecoration(
-                        color: backgroundColor,
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: borderColor),
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //       color: shadowColor,
-                        //       spreadRadius: 1,
-                        //       blurRadius: 15,
-                        //       offset: const Offset(0, 15))
-                        // ]
-                        // border:
-                        // Border.all(color: AppColors.lightPrimary, width: 2),
-                        // color: Colors.white
-                        ),
+                      color: backgroundColor,
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(color: borderColor),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -356,15 +341,22 @@ class _ProductListState extends State<ProductList> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                    return ProductDetails(id: productData[index].id, description: productData[index].description, inStock: productData[index].inStock  ,
-                                    name: productData[index].name, price: productData[index].price, publish_status: productData[index].status, short_description: productData[index].shortDescription,
-                                    
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return ProductDetails(
+                                      id: productData[index].id,
+                                      description:
+                                          productData[index].description,
+                                      inStock: productData[index].inStock,
+                                      name: productData[index].name,
+                                      price: productData[index].price,
+                                      publish_status: productData[index].status,
+                                      short_description:
+                                          productData[index].shortDescription,
                                     );
-                                  })) ;
+                                  }));
                                 },
                                 child: Container(
-                                  // padding: EdgeInsets.all(2.w),
                                   margin: EdgeInsets.all(2.w),
                                   decoration: BoxDecoration(
                                       color: backgroundColor,
@@ -374,8 +366,7 @@ class _ProductListState extends State<ProductList> {
                                             color: shadowColor,
                                             spreadRadius: 0,
                                             blurRadius: 15,
-                                            offset: const Offset(0, 10)
-                                            )
+                                            offset: const Offset(0, 10))
                                       ],
                                       borderRadius: BorderRadius.circular(8)),
                                   width: 50.w,
@@ -509,22 +500,3 @@ class _ProductListState extends State<ProductList> {
     );
   }
 }
-
-// Widget _buildPage(int index) {
-//   switch (index) {
-//     case 0:
-//       return ProfileScreen();
-//     case 1:
-//     return ProfileScreen();
-//       // return MedicineList();
-//     case 2:
-//     return ProfileScreen();
-//       // return OrderScreen();
-//     case 3:
-//     return ProfileScreen();
-//       // return ProfileScreenTwo();
-//     default:
-//     return ProfileScreen();
-//       // return HomeMain();
-//   }
-// }

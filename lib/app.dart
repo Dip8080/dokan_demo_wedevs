@@ -1,4 +1,3 @@
-
 import 'package:dokan_demo_wedevs/Features/auth/data/app_initilization.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/login.dart';
@@ -11,7 +10,7 @@ class Dokan extends ConsumerWidget {
   const Dokan({super.key});
 
   @override
-  Widget build(BuildContext context ,ref) {
+  Widget build(BuildContext context, ref) {
     ref.watch(appInitializationProvider);
     final isAuthenticated = ref.watch(authProvider);
     return FlutterSizer(builder: (context, orientation, screenType) {
@@ -30,14 +29,14 @@ class Dokan extends ConsumerWidget {
     return ThemeData(
       brightness: Brightness.light,
       inputDecorationTheme: const InputDecorationTheme(
-        enabledBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: AppColors.lightPrimary)),
-        focusedBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: AppColors.lightPrimary)),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryPurple)),
-        focusedErrorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: AppColors.primaryPurple)),
+        enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.lightPrimary)),
+        focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.lightPrimary)),
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.primaryPurple)),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: AppColors.primaryPurple)),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -50,53 +49,49 @@ class Dokan extends ConsumerWidget {
             foregroundColor: Colors.white),
       ),
       expansionTileTheme: ExpansionTileThemeData(
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Colors.transparent),
-          borderRadius: BorderRadius.circular(8),
-        )
-      ),
-  
+          shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.transparent),
+        borderRadius: BorderRadius.circular(8),
+      )),
     );
   }
 
   ThemeData _dartThemeData() {
     return ThemeData(
-      brightness: Brightness.dark,
-      inputDecorationTheme: const InputDecorationTheme(
-        enabledBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.purple)),
-        focusedBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.purple)),
-        errorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-        focusedErrorBorder:
-            OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-            fixedSize: const Size.fromWidth(double.maxFinite),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        brightness: Brightness.dark,
+        inputDecorationTheme: const InputDecorationTheme(
+          enabledBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.purple)),
+          focusedBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.purple)),
+          errorBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+          focusedErrorBorder:
+              OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+              fixedSize: const Size.fromWidth(double.maxFinite),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              // backgroundColor: Colors.purple,
+              backgroundColor: Color.fromARGB(255, 247, 96, 85),
+              foregroundColor: Colors.white),
+        ),
+        expansionTileTheme: ExpansionTileThemeData(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            // backgroundColor: Colors.purple,
-            backgroundColor: Color.fromARGB(255, 247, 96, 85),
-            foregroundColor: Colors.white),
-      ),
-       expansionTileTheme: ExpansionTileThemeData(
-        shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.transparent),
           borderRadius: BorderRadius.circular(8),
-        )
-      ),
-
-     iconButtonTheme: IconButtonThemeData(
-      style: ButtonStyle(iconColor: MaterialStateColor.resolveWith((states) => Colors.white)),
-     ) 
-    );
+        )),
+        iconButtonTheme: IconButtonThemeData(
+          style: ButtonStyle(
+              iconColor:
+                  MaterialStateColor.resolveWith((states) => Colors.white)),
+        ));
   }
 }
-
 
 class AppColors {
   static const Color lightPrimary = Color.fromARGB(255, 241, 98, 76);
@@ -134,7 +129,7 @@ class AppColors {
       200: getShade(color, value: 0.3),
       300: getShade(color, value: 0.2),
       400: getShade(color),
-      500: color, 
+      500: color,
       600: getShade(color, darker: true),
       700: getShade(color, value: 0.15, darker: true),
       800: getShade(color, value: 0.2, darker: true),
