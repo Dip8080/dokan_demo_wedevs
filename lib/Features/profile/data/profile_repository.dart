@@ -23,12 +23,16 @@ class ProfileRepository {
     }
   }
 
-  updateProfile(int id) async {
+  updateProfile(int id , Map<String , dynamic> fullName) async {
+    print('this is user id - ${id} and this is full name - ${fullName}');
     final response = await http.post(
-      Uri.parse('https://apptest.dokandemo.com/wp-json/wp/v2/users/me/${id}'),
+      Uri.parse('https://apptest.dokandemo.com/wp-json/wp/v2/users/${id}'),
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer ${await AuthRepository().getToken()}'
       },
+      body: jsonEncode(fullName),
+      
     );
     if (response.statusCode == 200) {
       print('this is user update response - ${response.body}');
