@@ -1,21 +1,46 @@
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
+import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/store_user_data.dart';
 import 'package:dokan_demo_wedevs/Features/auth/presentation/screen/login.dart';
+import 'package:dokan_demo_wedevs/Features/profile/data/profile_repository.dart';
 import 'package:dokan_demo_wedevs/Features/profile/presentation/Screens/profile_screen.dart';
 import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-class CustomDrawer extends ConsumerWidget {
+class CustomDrawer extends ConsumerStatefulWidget {
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() => _CustomDrawerState();
+}
+
+class _CustomDrawerState extends ConsumerState<CustomDrawer> {
+  var name = 'User Name';
+  int? id;
+  Future<void> fetchProfileData() async {
+    final profileData = await ProfileRepository().getProfiledata();
+    if (profileData != null) {
+      setState(() {
+        name = profileData['name'];
+        id = profileData['id'];
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    fetchProfileData();
+    super.initState();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
     final isAuthenticated = ref.watch(authProvider);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          _buildHeader(),
+          _buildHeader(isAuthenticated),
           _buildDrawerItem(
             icon: Icons.home,
             title: 'Home',
@@ -77,10 +102,11 @@ class CustomDrawer extends ConsumerWidget {
           _buildDrawerItem(
             icon: isAuthenticated ? Icons.logout_sharp : Icons.login_sharp,
             title: isAuthenticated ? 'Logout' : 'Login',
-            onTap: () {
+            onTap: () async{
               if (isAuthenticated) {
                 UserData().deleteUserData();
                 ref.read(authProvider.notifier).logout();
+                await AuthRepository().logOut();
                 final snackBar = SnackBar(
                   content: Text(
                     'You have been logged out !',
@@ -99,7 +125,7 @@ class CustomDrawer extends ConsumerWidget {
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(snackBar);
-              } else {
+              } else if(!isAuthenticated) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -116,7 +142,7 @@ class CustomDrawer extends ConsumerWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(bool isAuthenticated) {
     return SizedBox(
       height: 300,
       child: DrawerHeader(
@@ -136,6 +162,14 @@ class CustomDrawer extends ConsumerWidget {
                 // Replace with actual profile image
               ),
             ),
+             Text(
+                          // '${isAuthenticated ?? data['user']}',
+                          isAuthenticated ? "${name}" : "User Name",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
             Consumer(
               builder: (context, ref, child) {
                 final isAuthenticated = ref.watch(authProvider);
@@ -149,14 +183,7 @@ class CustomDrawer extends ConsumerWidget {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          // '${isAuthenticated ?? data['user']}',
-                          isAuthenticated ? "${data['user']}" : "User Name",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                       
                         Text(
                           // '${data.token}',
                           isAuthenticated ? "${data['email']}" : "User Email",

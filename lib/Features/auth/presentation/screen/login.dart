@@ -66,7 +66,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             decoration: const InputDecoration(
-                                prefixIcon: Icon(Icons.email),
+                                prefixIcon: Icon(Icons.person_outline),
                                 hintText: 'User Name'),
                             validator: (String? value) {
                               if (value == null || value.trim().isEmpty) {
@@ -81,6 +81,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             obscureText: true,
                             keyboardType: TextInputType.visiblePassword,
                             decoration: const InputDecoration(
+                              prefixIcon: Icon(Icons.password),
                               hintText: 'password',
                             ),
                             validator: (String? value) {

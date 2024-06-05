@@ -22,8 +22,7 @@ class ProfileRepository {
       return null;
     }
   }
-
-  updateProfile(int id , Map<String , dynamic> fullName) async {
+Future<dynamic> updateProfile(int id , Map<String , dynamic> fullName) async {
     print('this is user id - ${id} and this is full name - ${fullName}');
     final response = await http.post(
       Uri.parse('https://apptest.dokandemo.com/wp-json/wp/v2/users/${id}'),
@@ -35,7 +34,7 @@ class ProfileRepository {
       
     );
     if (response.statusCode == 200) {
-      print('this is user update response - ${response.body}');
+      return response;
     } else {
       print('failed updating user data -${response.body}');
     }

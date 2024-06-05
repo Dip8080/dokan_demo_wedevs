@@ -1,3 +1,4 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_provider.dart';
 import 'package:dokan_demo_wedevs/Features/auth/data/auth_repository.dart';
@@ -6,9 +7,9 @@ import 'package:dokan_demo_wedevs/Features/profile/data/profile_repository.dart'
 import 'package:dokan_demo_wedevs/Features/profile/presentation/widgets/data_update_button.dart';
 import 'package:dokan_demo_wedevs/app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_sizer/flutter_sizer.dart';
+import 'package:http/http.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -45,7 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ),
   ];
 
-  String? name;
+  var name = 'User Name';
   int? id;
   Future<void> fetchProfileData() async {
     final profileData = await ProfileRepository().getProfiledata();
@@ -63,8 +64,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  bool? isLoading;
   @override
   Widget build(BuildContext context) {
+      final Brightness brightness = MediaQuery.of(context).platformBrightness;
+    final Color backgroundColor =
+        (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.white;
+    final Color shadowColor = (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.grey.shade200;
+    final Color borderColor = (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.grey.shade200;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -74,11 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         leading: Container(),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {});
-        },
-        child: SingleChildScrollView(
+      body:  SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(5.w),
             child: Column(
@@ -139,8 +142,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: EdgeInsets.all(1.w),
                     width: 100.w,
                     decoration: BoxDecoration(
+                      
                       borderRadius: BorderRadius.circular(8),
-                      // color: Colors.white
+                      color: backgroundColor
                     ),
                     child: Column(
                       children: [
@@ -264,11 +268,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                   GestureDetector(
                                     onTap: () async {
-                                      final String fullName = _firstNameController.text + ' ' + _lastNameController.text;
-                                      ProfileRepository().updateProfile(
-                                          id ?? 1, {'name': fullName});
+                                      setState(() {
+                                        isLoading = true;
+                                      });
 
-                                      setState(() {});
+                                      final String fullName =
+                                          _firstNameController.text +
+                                              ' ' +
+                                              _lastNameController.text;
+                                      if (_formKey.currentState!.validate()) {
+                                        final Response response =
+                                            await ProfileRepository()
+                                                .updateProfile(id ?? 1,
+                                                    {'name': fullName});
+
+                                        if (response.statusCode == 200) {
+                                          setState(() {
+                                            isLoading = false;
+                                    
+                                          });
+                                         
+                                          final snackbar = AnimatedSnackBar(
+                                            builder: ((context) {
+                                              return Container(
+                                                width: 90.w,
+                                                height: 6.5.h,
+                                                padding:
+                                                    const EdgeInsets.all(8),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                    color: Colors.green,
+                                                ),
+                                              
+                                               
+                                                child: Row(
+                                                  children: [
+                                                    Icon(Icons.check_circle_outline, color: Colors.white, size: 5.w,),
+                                                    SizedBox(width: 2.w,),
+                                                    const Text(
+                                                        'Successfully updated profile name.'),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                          );
+                                          snackbar.show(context);
+                                           initState();
+                                          snackbar.remove();
+
+                                        }
+                                      }
                                     },
                                     child: Container(
                                       height: 6.5.h,
@@ -279,7 +328,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ),
                                       child: Center(
                                         child: Text(
-                                          'Save',
+                                          'Update',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 4.5.w,
@@ -289,13 +338,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     ),
                                   ),
                                 ],
-                              )
+                              ),
+                              SizedBox(height: 2.h),
+                              isLoading == true
+                                  ? Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Center(
+                                          child: CircularProgressIndicator(
+                                        color: Colors.red,
+                                      )),
+                                    )
+                                  : SizedBox(),
                             ],
                           ),
                         ),
                         Container(width: 75.w, child: Divider()),
                         ExpansionTile(
-                          backgroundColor: Colors.white,
+                          
                           iconColor: AppColors.lightPrimary,
                           collapsedIconColor: Colors.grey,
                           childrenPadding: const EdgeInsets.symmetric(
@@ -418,7 +477,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(width: 75.w, child: Divider()),
                         ExpansionTile(
-                          backgroundColor: Colors.white,
+                          
                           iconColor: AppColors.lightPrimary,
                           collapsedIconColor: Colors.grey,
                           childrenPadding: const EdgeInsets.symmetric(
@@ -452,7 +511,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Container(width: 75.w, child: Divider()),
                         ExpansionTile(
-                          backgroundColor: Colors.white,
+                        
                           iconColor: AppColors.lightPrimary,
                           collapsedIconColor: Colors.grey,
                           childrenPadding: const EdgeInsets.symmetric(
@@ -492,10 +551,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
-      ),
+      
       bottomNavigationBar: BottomBarCreative(
         items: items,
-        backgroundColor: Colors.grey.shade800,
+        backgroundColor: backgroundColor,
         color: Colors.black,
         colorSelected: AppColors.lightPrimary,
         indexSelected: visit,
@@ -512,5 +571,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         }),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    super.dispose();
   }
 }

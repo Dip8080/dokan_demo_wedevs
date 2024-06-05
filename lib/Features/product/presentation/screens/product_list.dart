@@ -4,6 +4,7 @@ import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
 import 'package:awesome_bottom_bar/widgets/inspired/inspired.dart';
 import 'package:dokan_demo_wedevs/Features/product/data/get_book_data.dart';
 import 'package:dokan_demo_wedevs/Features/product/model/book.dart';
+import 'package:dokan_demo_wedevs/Features/product/presentation/screens/product_details.dart';
 import 'package:dokan_demo_wedevs/Features/product/presentation/widgets/custom_drawer.dart';
 import 'package:dokan_demo_wedevs/Features/profile/presentation/Screens/profile_screen.dart';
 import 'package:dokan_demo_wedevs/app.dart';
@@ -14,8 +15,6 @@ import 'package:flutter_sizer/flutter_sizer.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
-
- 
 
   @override
   State<ProductList> createState() => _ProductListState();
@@ -68,9 +67,13 @@ class _ProductListState extends State<ProductList> {
                   SizedBox(
                     height: 5.h,
                   ),
-                  Center(child: Container(
-                    width: 14.w,
-                    child: Divider(thickness: 3, color: AppColors.lightPrimary,))),
+                  Center(
+                      child: Container(
+                          width: 14.w,
+                          child: Divider(
+                            thickness: 3,
+                            color: AppColors.lightPrimary,
+                          ))),
                   Text(
                     'Filter',
                     style:
@@ -141,7 +144,6 @@ class _ProductListState extends State<ProductList> {
                         child: Container(
                           height: 7.h,
                           width: 40.w,
-                          
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
                             borderRadius: BorderRadius.circular(10),
@@ -150,7 +152,9 @@ class _ProductListState extends State<ProductList> {
                             child: Center(
                                 child: Text('Cancel',
                                     style: TextStyle(
-                                        color: Colors.black, fontSize: 4.5.w , fontWeight: FontWeight.bold))),
+                                        color: Colors.black,
+                                        fontSize: 4.5.w,
+                                        fontWeight: FontWeight.bold))),
                           ),
                         ),
                       ),
@@ -167,7 +171,6 @@ class _ProductListState extends State<ProductList> {
                         child: Container(
                           height: 7.h,
                           width: 40.w,
-                          
                           decoration: BoxDecoration(
                             color: AppColors.lightPrimary,
                             borderRadius: BorderRadius.circular(10),
@@ -176,7 +179,9 @@ class _ProductListState extends State<ProductList> {
                             child: Text(
                               'Apply',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 4.5.w , fontWeight: FontWeight.bold),
+                                  color: Colors.white,
+                                  fontSize: 4.5.w,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -215,6 +220,11 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    final Brightness brightness = MediaQuery.of(context).platformBrightness;
+    final Color backgroundColor =
+        (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.white;
+    final Color shadowColor = (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.grey.shade200;
+    final Color borderColor = (brightness == Brightness.dark) ? Colors.grey.shade900 : Colors.grey.shade200;
     return Scaffold(
       appBar: AppBar(
         leading: Builder(
@@ -225,20 +235,21 @@ class _ProductListState extends State<ProductList> {
               },
               icon: Icon(
                 Icons.menu,
-                color: Colors.black,
               ),
             );
           },
         ),
         title: Text(
           'Product List',
-          style: TextStyle(color: AppColors.lightPrimary , fontWeight: FontWeight.bold,letterSpacing: 1),
+          style: TextStyle(
+             
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1),
         ),
         centerTitle: true,
         actions: <Widget>[
           Icon(
             Icons.search,
-            color: AppColors.darkBG,
           ),
           SizedBox(
             width: 3.5.w,
@@ -250,67 +261,75 @@ class _ProductListState extends State<ProductList> {
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
-                  padding: EdgeInsets.only(
-                    left: 5.w,
-                    right: 5.w,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {
-                      _showSortOptions();
-                    },
-                    child: Card(
-                     
-                      elevation: 1,
-                      child: Container(
-                        padding: EdgeInsets.only(left:2.w, right: 2.w),
-                        height: 7.h,
-                        width: 90.w,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          // border:
-                              // Border.all(color: AppColors.lightPrimary, width: 2),
-                          // color: Colors.white                              
+                padding: EdgeInsets.only(
+                  left: 5.w,
+                  right: 5.w,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    _showSortOptions();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 1.5.w, bottom: 2.w),
+                    padding: EdgeInsets.only(left: 2.w, right: 2.w),
+                    height: 7.h,
+                    width: 95.w,
+                    decoration: BoxDecoration(
+                        color: backgroundColor,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: borderColor),
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //       color: shadowColor,
+                        //       spreadRadius: 1,
+                        //       blurRadius: 15,
+                        //       offset: const Offset(0, 15))
+                        // ]
+                        // border:
+                        // Border.all(color: AppColors.lightPrimary, width: 2),
+                        // color: Colors.white
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(children: <Widget>[
-                                Icon(
-                                  Icons.candlestick_chart_outlined,
-                                  color: Colors.grey,
-                                  size: 8.w,
-                                ),
-                                Text(
-                                  '${_sortOption}',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 4.5.w),
-                                ),
-                              ]),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: Row(children: <Widget>[
+                            Icon(
+                              Icons.candlestick_chart_outlined,
+                              color: Colors.grey,
+                              size: 8.w,
                             ),
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    'short',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 4.5.w),
-                                  ),
-                                  Icon(
-                                    Icons.sort_sharp,
-                                    color: Colors.grey,
-                                  ),
-                                ],
+                            Text(
+                              '${_sortOption}',
+                              style: TextStyle(
+                                  color: Colors.grey, fontSize: 4.5.w),
+                            ),
+                          ]),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Text(
+                                'short',
+                                style: TextStyle(
+                                    color: Colors.grey, fontSize: 4.5.w),
                               ),
-                            ),
-                          ],
+                              Icon(
+                                Icons.sort_sharp,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  )),
+                  ),
+                ),
+              ),
               Container(
                 height: 90.h,
                 child: FutureBuilder(
@@ -337,22 +356,27 @@ class _ProductListState extends State<ProductList> {
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                  //   return ImageDetails(id: productData[index].idproductName, title: productData[index].titleproductName, image: productData[index].urlproductName  ,);
-                                  // })) ;
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                    return ProductDetails(id: productData[index].id, description: productData[index].description, inStock: productData[index].inStock  ,
+                                    name: productData[index].name, price: productData[index].price, publish_status: productData[index].status, short_description: productData[index].shortDescription,
+                                    
+                                    );
+                                  })) ;
                                 },
                                 child: Container(
                                   // padding: EdgeInsets.all(2.w),
                                   margin: EdgeInsets.all(2.w),
                                   decoration: BoxDecoration(
-                                      color: Colors.grey.shade900,
-                                      // boxShadow: [
-                                      //   BoxShadow(
-                                      //     blurRadius: 7,
-                                      //     offset: Offset(.5, 3),
-                                      //   ),
-                                      // ],
-                                      // border: Border.all(color: Colors.purple),
+                                      color: backgroundColor,
+                                      border: Border.all(color: borderColor),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: shadowColor,
+                                            spreadRadius: 0,
+                                            blurRadius: 15,
+                                            offset: const Offset(0, 10)
+                                            )
+                                      ],
                                       borderRadius: BorderRadius.circular(8)),
                                   width: 50.w,
                                   height: 60.h,
@@ -378,42 +402,40 @@ class _ProductListState extends State<ProductList> {
                                         width: 5.w,
                                       ),
                                       Text(
-                                          productData[index].name ??
-                                              'demo name',
-                                          style: TextStyle(
-                                              fontSize: 3.5.w,
-                                              fontWeight: FontWeight.w400),
-                                        ),
-                                     
+                                        productData[index].name ?? 'demo name',
+                                        style: TextStyle(
+                                            fontSize: 3.5.w,
+                                            fontWeight: FontWeight.w400),
+                                      ),
                                       SizedBox(
                                         width: 10.w,
                                       ),
                                       Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              '150\$' ?? 'demo name',
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  decorationColor: Colors.grey,
-                                                  decoration: TextDecoration
-                                                      .lineThrough,
-                                                  fontSize: 4.w,
-                                                  fontWeight: FontWeight.w400),
-                                            ),
-                                            SizedBox(
-                                              width: 2.w,
-                                            ),
-                                            Text(
-                                              '${productData[index].price.toString()}\$' ??
-                                                  'demo name',
-                                              style: TextStyle(
-                                                  fontSize: 5.w,
-                                                  fontWeight: FontWeight.w700),
-                                            ),
-                                          ],
-                                        ),
-                                 
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            '150\$' ?? 'demo name',
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                decorationColor: Colors.grey,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontSize: 4.w,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                          SizedBox(
+                                            width: 2.w,
+                                          ),
+                                          Text(
+                                            '${productData[index].price.toString()}\$' ??
+                                                'demo name',
+                                            style: TextStyle(
+                                                fontSize: 5.w,
+                                                fontWeight: FontWeight.w700),
+                                          ),
+                                        ],
+                                      ),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -421,28 +443,28 @@ class _ProductListState extends State<ProductList> {
                                         children: <Widget>[
                                           Icon(
                                             Icons.star,
-                                            color: AppColors.lightPrimary,
-                                            size: 5.w,
+                                            color: AppColors.mediumYellow,
+                                            size: 4.w,
                                           ),
                                           Icon(
-                                            size: 5.w,
+                                            size: 4.w,
                                             Icons.star,
-                                            color: AppColors.lightPrimary,
+                                            color: AppColors.mediumYellow,
                                           ),
                                           Icon(
-                                            size: 5.w,
+                                            size: 4.w,
                                             Icons.star,
-                                            color: AppColors.lightPrimary,
+                                            color: AppColors.mediumYellow,
                                           ),
                                           Icon(
-                                            size: 5.w,
+                                            size: 4.w,
                                             Icons.star_half,
-                                            color: AppColors.lightPrimary,
+                                            color: AppColors.mediumYellow,
                                           ),
                                           Icon(
-                                            size: 5.w,
+                                            size: 4.w,
                                             Icons.star_half,
-                                            color: AppColors.lightPrimary,
+                                            color: AppColors.mediumYellow,
                                           )
                                         ],
                                       )
@@ -467,7 +489,7 @@ class _ProductListState extends State<ProductList> {
         padding: const EdgeInsets.only(bottom: 0, right: 0, left: 0, top: 0),
         child: BottomBarCreative(
           items: items,
-          backgroundColor: Colors.grey.shade800,
+          backgroundColor: backgroundColor,
           color: Colors.black,
           colorSelected: AppColors.lightPrimary,
           indexSelected: visit,
