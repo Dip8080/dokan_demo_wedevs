@@ -17,7 +17,7 @@ class Dokan extends ConsumerWidget {
     return FlutterSizer(builder: (context, orientation, screenType) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Crud App',
+        title: 'dokan',
         theme: _lightThemeData(),
         darkTheme: _dartThemeData(),
         themeMode: ThemeMode.system,

@@ -1,16 +1,62 @@
-# dokan_demo_wedevs
+# Flutter Demo App
 
-A new Flutter project.
+This project is a Flutter application that demonstrates user registration, login with JWT authentication, profile updates, and displaying products on the home page. The app is compatible with both Android and iOS.
 
-## Getting Started
+## Table of Contents
 
-This project is a starting point for a Flutter application.
+- [Features](#features)
+- [Setup](#setup)
+- [Endpoints](#endpoints)
+- [Screenshots](#screenshots)
+- [Git Commit Messages](#git-commit-messages)
+- [Contact](#contact)
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. **User Registration**
+   - Users can sign up with a username, email, and password.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. **User Login**
+   - Users can log in with their username and password.
+
+3. **Profile Update**
+   - Authenticated users can update their profile information (first name, last name).
+
+4. **Home Page**
+   - Displays products from the provided JSON data.
+   - Implements filter actions as required.
+
+5. **Native Splash Screen**
+   - A native splash screen is implemented for both Android and iOS.
+
+## Setup
+
+### Prerequisites
+
+- Flutter SDK: [Install Flutter](https://flutter.dev/docs/get-started/install)
+- Android Studio or Xcode for iOS
+
+### Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/your-repository-name.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd your-repository-name
+    ```
+3. Install dependencies:
+    ```bash
+    flutter pub get
+    ```
+4. Run the app:
+    ```bash
+    flutter run
+    ```
+
+### Building APK
+
+To build the APK for Android:
+```bash
+flutter build apk --release
